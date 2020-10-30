@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { login } from '../api/login';
 
 const initialFormValues = {
@@ -9,6 +9,8 @@ const initialFormValues = {
 
 const Login = (props) => {
     const [formValues, setFormValues] = useState(initialFormValues);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
     const history = useHistory();
 
     const onChange = evt => {
@@ -18,11 +20,26 @@ const Login = (props) => {
 
     const onSubmit = evt => {
         evt.preventDefault();
-        login({ username: formValues.username, password: formValues.password }).then(() => {
-            // Push user to new page
-            history.push("/");
-        });
+        setIsLoading(true);
+        login({ username: formValues.username, password: formValues.password })
+            .then((resp) => {
+                setIsLoading(false);
+                // Push user to new page
+                history.push("/");
+            })
+            .catch((err) => {
+                setIsLoading(false);
+                setError("Wrong username or password. Please try again.");
+            });
     };
+
+    if (isLoading) {
+        return (
+            <div className="box has-text-centered">
+                <h3>LOADING</h3>
+            </div>
+        );
+    }
 
     return (
         <div className="box">
@@ -31,28 +48,35 @@ const Login = (props) => {
             </div>
             <div className="form-container">
                 <form onSubmit={onSubmit}>
-                    <div class="field">
-                        <p class="control has-icons-left has-icons-right">
-                            <input name="username" onChange={onChange} value={formValues.username} class="input" type="username" placeholder="Username" required />
-                            <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
+                    <div className="field">
+                        <p className="control has-icons-left has-icons-right">
+                            <input name="username" onChange={onChange} value={formValues.username} className="input" type="username" autoComplete="username" placeholder="Username" required />
+                            <span className="icon is-small is-left">
+                            <i className="fas fa-envelope"></i>
                             </span>
-                            <span class="icon is-small is-right">
-                            <i class="fas fa-check"></i>
-                            </span>
-                        </p>
-                    </div>
-                    <div class="field">
-                        <p class="control has-icons-left">
-                            <input name="password" onChange={onChange} value={formValues.password} class="input" type="password" placeholder="Password" required />
-                            <span class="icon is-small is-left">
-                            <i class="fas fa-lock"></i>
+                            <span className="icon is-small is-right">
+                            <i className="fas fa-check"></i>
                             </span>
                         </p>
                     </div>
-                    <div class="field has-text-centered button-container">
-                        <p class="control">
-                            <button class="button is-success">
+                    <div className="field">
+                        <p className="control has-icons-left">
+                            <input name="password" onChange={onChange} value={formValues.password} className="input" type="password" autoComplete="password" placeholder="Password" required />
+                            <span className="icon is-small is-left">
+                            <i className="fas fa-lock"></i>
+                            </span>
+                        </p>
+                    </div>
+                    <div className="error has-text-centered">
+                        {error &&
+                            <p>
+                                {error}
+                            </p>
+                        }
+                    </div>
+                    <div className="field has-text-centered button-container">
+                        <p className="control">
+                            <button className="button is-success">
                             Login
                             </button>
                         </p>

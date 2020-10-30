@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
 } from "react-router-dom";
 
 import Login from './components/Login';
+import Dashboard from './components/Dashboard';
+import PrivateRoute from './components/PrivateRoute';
 
 import './App.css';
 import '../node_modules/bulma/css/bulma.min.css';
-
-
 
 function App() {
   return (
@@ -27,12 +27,13 @@ function App() {
             <Route path="/login">
               <Login />
             </Route>
+            <PrivateRoute path="/" component={Dashboard} />
           </Switch>
         </div>
 
       </div>
     </Router>
   );
-}
+};
 
 export default App;
