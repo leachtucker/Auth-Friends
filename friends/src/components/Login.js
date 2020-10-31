@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { login } from '../api/login';
+import ReactLoading from 'react-loading';
 
 const initialFormValues = {
     username: "",
@@ -33,17 +34,9 @@ const Login = (props) => {
             });
     };
 
-    if (isLoading) {
-        return (
-            <div className="box has-text-centered">
-                <h3>LOADING</h3>
-            </div>
-        );
-    }
-
     return (
         <div className="box">
-            <div className="has-text-centered">
+            <div className="has-text-centered box-header">
                 <h2 className="title is-4">Login</h2>
             </div>
             <div className="form-container">

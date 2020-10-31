@@ -26,6 +26,43 @@ header h1 {
     color: red;
 }
 
-.tile {
-    width: 25%;
+.box-header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid gainsboro;
+    margin-bottom: 20px;
+}
+
+.friends-container {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.friend-tile {
+    width: 225px;
+    height: 120px;
+    padding: .8rem 0;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    margin: .6rem;
+}
+
+.friend-content {
+    text-align: center;
+}
+
+.friendform {
+    margin-top: 2rem !important;
+}
+
+.remove-button {
+    background-color: white !important;
+    border: none;
+}
+
+.remove-button:hover {
+    cursor: pointer;
 }
